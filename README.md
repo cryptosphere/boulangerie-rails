@@ -1,5 +1,4 @@
-![Boulangerie](https://raw.githubusercontent.com/cryptosphere/boulangerie/master/boulangerie.png)
-Now for Ruby on Rails!
+![Boulangerie](https://raw.githubusercontent.com/cryptosphere/boulangerie-rails/master/boulangerie-rails.png)
 ======================
 [![Gem Version](https://badge.fury.io/rb/boulangerie-rails.svg)](http://rubygems.org/gems/boulangerie-rails)
 [![Build Status](https://travis-ci.org/cryptosphere/boulangerie-rails.svg)](https://travis-ci.org/cryptosphere/boulangerie-rails)
