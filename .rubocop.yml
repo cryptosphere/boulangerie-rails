@@ -1,0 +1,27 @@
+AllCops:
+  DisplayCopNames: true
+
+LineLength:
+  Max: 100
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/SpaceAroundOperators:
+  Enabled: false
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 50
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+Metrics/PerceivedComplexity:
+  Max: 15
