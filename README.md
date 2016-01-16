@@ -20,7 +20,7 @@ boulangerie-rails can be used with Rails 4.1+.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'boulangerie-rails'
+gem "boulangerie-rails"
 ```
 
 And then execute:
@@ -62,11 +62,13 @@ To generate random keys, use the `Boulangerie::Keyring.generate_key` method,
 which you can call from `irb` or `pry`:
 
 ```
-[1] pry(main)> require 'boulangerie'
+[1] pry(main)> require "boulangerie"
 => true
 [2] pry(main)> Boulangerie::Keyring.generate_key
 => "1b942ba242e9d39ce838d03652091695eb1fef93d35d9454498ca970a8827e8f"
 ```
+
+*NOTE: Do not use this key! Make your own!*
 
 The names of the keys (e.g. `key0`, `key1`) are arbitrary, but all new Macaroons
 will use the key whose ID was passed in as the `key_id` option to
