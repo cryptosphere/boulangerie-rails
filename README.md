@@ -1,6 +1,6 @@
 ![Boulangerie](https://raw.githubusercontent.com/cryptosphere/boulangerie/master/boulangerie.png)
-for Rails!
-==========
+Now for Ruby on Rails!
+======================
 [![Gem Version](https://badge.fury.io/rb/boulangerie-rails.svg)](http://rubygems.org/gems/boulangerie-rails)
 [![Build Status](https://travis-ci.org/cryptosphere/boulangerie-rails.svg)](https://travis-ci.org/cryptosphere/boulangerie-rails)
 [![Code Climate](https://codeclimate.com/github/cryptosphere/boulangerie-rails/badges/gpa.svg)](https://codeclimate.com/github/cryptosphere/boulangerie-rails)
@@ -9,6 +9,8 @@ for Rails!
 
 [Boulangerie] is a Ruby gem for building authorization systems using
 [Macaroons](http://macaroons.io), a better kind of cookie.
+
+This gem contains support for using Boulangerie with Ruby on Rails.
 
 [Boulangerie]: https://github.com/cryptosphere/boulangerie
 
