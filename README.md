@@ -36,11 +36,16 @@ Or install it yourself as:
 Add the following to `config/initializers/boulangerie.rb`:
 
 ```ruby
+keyring = Boulangerie::Keyring.new(
+  keys:   Rails.application.secrets.boulangerie.keys,
+  key_id: Rails.application.secrets.boulangerie.default_key_id
+)
+
 Boulangerie.setup(
-  schema:   Rails.root.join("config/boulangerie_schema.yml"),
-  keys:     Rails.application.secrets.boulangerie_keys
-  key_id:   "key1"
-  location: "https://mycoolsite.com"
+  id:       :photos,
+  schema:   Rails.root.join("config/boulangerie/photos_schema.yml"),
+  keyring:  keyring,
+  location: "https://mycoolsite.com/photos"
 )
 ```
 
@@ -50,13 +55,20 @@ your respective environments (example given for development):
 ```yaml
 development:
   secret_key_base: DEADBEEFDEADBEEFDEADBEEF[...]
-  boulangerie_keys:
-    key0: "1b942ba242e9d39ce838d03652091695eb1fef93d35d9454498ca970a8827e8f"
-    key1: "7efc8f72d159ce31a4b2c8db6281bf8d91a2f2778d4d0062f80b977ea43a8ec4"
+  boulangerie:
+    default_key_id: k1
+    keyring:
+      k0: "1b942ba242e9d39ce838d03652091695eb1fef93d35d9454498ca970a8827e8f"
+      k1: "7efc8f72d159ce31a4b2c8db6281bf8d91a2f2778d4d0062f80b977ea43a8ec4"
 ```
 
-The `boulangerie_keys` hash contains a "keyring" of keys which can be used to
-create or verify Macaroons.
+The `keyring` hash contains all of the currently active keys which are allowed
+to verify Macaroons. The `default_key_id` is used to create new Macaroons.
+The names of the keys (e.g. `k0`, `k1`) are arbitrary.
+
+This allows for key rotation, i.e. periodically you can add a new key, and
+Macaroons minted under an old key will still verify. Rotating keys is good
+security practice and you should definitely take advantage of it.
 
 To generate random keys, use the `Boulangerie::Keyring.generate_key` method,
 which you can call from `irb` or `pry`:
@@ -68,18 +80,13 @@ which you can call from `irb` or `pry`:
 => "1b942ba242e9d39ce838d03652091695eb1fef93d35d9454498ca970a8827e8f"
 ```
 
-*NOTE: Do not use this key! Make your own!*
+*NOTE: Do not use this key (i.e. `1b942b`)! Make your own!*
 
-The names of the keys (e.g. `key0`, `key1`) are arbitrary, but all new Macaroons
-will use the key whose ID was passed in as the `key_id` option to
-`Boulangerie#initialize`. This allows for key rotation, i.e. periodically you can
-add a new key, and Macaroons minted under an old key will still verify.
+You'll also need to create schema files for the domain objects you intend to
+restrict access to via Macaroons, e.g. `config/boulangerie/photos_schema.yml`.
 
-Rotating keys is good security practice and you should definitely take advantage of it.
-
-You'll also need to create a `config/boulangerie_schema.yml` file that
-contains the schema for your Macaroons. Here is a basic schema that will
-add `not-before` and `expires` timestamp assertions on your Macaroons:
+Here is a basic schema that will add `not-before` and `expires` timestamp
+assertions on your Macaroons:
 
 ```yaml
 ---
