@@ -129,17 +129,14 @@ class AuthenticationController < ApplicationController
   def authenticate
     expires_at = 24.hours.from_now
 
-    cookie = Boulangerie.bake(caveats: {
-      expires:    Time.now,
-      not_before: expires_at
-    })
+    macaroon = Boulangerie.create_macaroon(
+      caveats: {
+        expires:    Time.now,
+        not_before: expires_at
+      }
+    )
 
-    cookies[:my_macaroon] = {
-      value:    cookie,
-      expires:  expires_at,
-      secure:   true,
-      httponly: true
-    }
+    cookies[:photos_macaroon] = macaroon.to_rails_cookie
   end
 ```
 
@@ -147,8 +144,15 @@ Finally, to actually use Macaroons to make authorization decisions, we need
 to configure Boulangerie in a given controller:
 
 ```ruby
-class MyController < ApplicationController
-  authorize_with_boulangerie :cookie => :my_macaroon
+class PhotosController < ApplicationController
+  authorize_with_boulangerie(
+    id:       :photos,
+    cookie:   :photos_macaroon
+    matchers: Boulangerie::Rails::ActiveRecordMatchers.create(
+      model:      Photos,
+      attributes: %i(id user_id)
+    )
+  )
 end
 ```
 
